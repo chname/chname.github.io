@@ -1,0 +1,75 @@
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+.big {
+    font-size: 30px;
+    font-weight: bold;
+}
+body, .container {
+    font-family: 'S-CoreDream-3Light';
+    text-align: center;
+    user-select: none;
+}
+.container {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+#engv-1,#engv-2,#engv-3,#engv-4,#engv-5,#engv-6
+,#engv-level-1,#engv-level-2,#engv-level-3
+,#engv-level-4,#engv-level-5,#engv-level-6
+,#stoneP1,#stoneP2,#stoneM1
+,#stoneP1-L,#stoneP2-L,#stoneM1-L
+,#teuk-1,#teuk-2,#teuk-3,#biyul{
+    font-family: 'S-CoreDream-4Regular';
+    text-align-last: center;
+    text-align: center;
+    -ms-text-align-last: center;
+    -moz-text-align-last: center;
+    width: 160px;
+    height: 35px;
+    font-size: 15px;
+}
+#biyul{
+    margin-top: 3px;
+    width: 490px;
+}
+#stoneP1, #stoneP2{
+    background: #fafffa;
+}
+#stoneM1{
+    background: #fffafa;
+}
+.choose-engrave, .choose-abilitystone, .choose-teuk{
+    margin-top: 10px;
+}
+.btn {
+    all: unset;
+    font-family: 'S-CoreDream-4Regular';
+    display: inline-block;
+    width: 50px;
+    background: #e5e5e5;
+    padding: 5px;
+}
+.btnb {
+    width: 120px;
+}
+.btn:hover {
+    background: #aaa;
+    cursor: pointer;
+}
+.green {
+    color: #1a1;
+}
+.red {
+    color: #a11;
+}
