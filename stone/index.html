@@ -23,6 +23,7 @@
             left: 50%;
             transform: translateX(-50%);
             margin-top:50px;
+            text-align: center
         }
         .template {
             position: relative;
@@ -101,6 +102,10 @@
         area {
             cursor: pointer;
         }
+        button {
+            padding: 7px;
+            font-size: 15px;
+        }
     </style>
     <!--
       P1 start: 470, 40px per slot
@@ -124,7 +129,11 @@
         <div id="cp2_count">0</div>
         <div id="cp3_count">0</div>
         <span id="okno"></span>
+        <button onclick="reset()">돌 다시 깎기</button>
+        <button onclick="JEONGBAE_repeat()">자동 세공</button>
+        <button onclick="stoggle()">소리 ON/OFF</button>
     </div>
+    
     <map name="stone"> 
         <area shape="rect" coords="867,267,966,341" onclick="segong(1)"></area>
         <area shape="rect" coords="867,363,966,438" onclick="segong(2)"></area>
@@ -132,6 +141,7 @@
     </map>
     
     <script>
+        var toggle = true
         var pos = [[[470,300], [470,300]],[[470,393], [470,393]],[[465,516], [467,520]]]
         var PERCENT = 0.75;
         var LINE = {
@@ -153,9 +163,11 @@
         const segong = (line) => {
             if(GO[line] == 10) return;
             if(Math.random() <= PERCENT){
-                const origAudio = document.getElementById("succ");
-                const succ = origAudio.cloneNode()
-                succ.play()
+                if(toggle){
+                    const origAudio = document.getElementById("succ");
+                    const succ = origAudio.cloneNode()
+                    succ.play()
+                }
                 //성공
                 if(PERCENT >= 0.35) PERCENT -= 0.1
                 LINE[line][GO[line]] = 1
@@ -168,9 +180,11 @@
                 OKNO.appendChild(image)
                 SUCC[line]++;
             }else{
-                const origAudio = document.getElementById("fail");
-                const fail = origAudio.cloneNode()
-                fail.play()
+                if(toggle){
+                    const origAudio = document.getElementById("fail");
+                    const fail = origAudio.cloneNode()
+                    fail.play()
+                }
                 //실패
                 if(PERCENT <= 0.65) PERCENT += 0.1
                 LINE[line][GO[line]] = -1
@@ -187,6 +201,66 @@
             document.querySelector("#per1").textContent = (PERCENT*100).toFixed(0) + "%"
             document.querySelector("#per2").textContent = (PERCENT*100).toFixed(0) + "%"
         }
+        const reset = () => {
+            PERCENT = 0.75;
+            LINE = {
+            1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            };
+            GO = {
+            1: 0,
+            2: 0,
+            3: 0
+            };
+            SUCC = {
+            1: 0,
+            2: 0,
+            3: 0
+            }
+            document.querySelector("#per1").textContent = "75%"
+            document.querySelector("#per2").textContent = "75%"
+            document.querySelector("#okno").innerHTML = ""
+            document.querySelector("#cp1_count").textContent = 0
+            document.querySelector("#cp2_count").textContent = 0
+            document.querySelector("#cp3_count").textContent = 0
+        }
+        var intv = null;
+        const JEONGBAE_repeat = () => {
+            if(intv == null){
+                reset()
+                GO[4]=0
+                intv = setInterval(()=>{
+                    if(PERCENT >= 0.55){
+                        if(GO[1] < 10)
+                            segong(1)
+                        else if(GO[2] < 10)
+                            segong(2)
+                        else
+                            segong(3)
+                    }else{
+                        if(GO[3] < 10)
+                            segong(3)
+                        else if(GO[2] < 10)
+                            segong(2)
+                        else
+                            segong(1)
+                    }
+                    if(GO[1]+GO[2]+GO[3]+GO[4] == 30){
+                        setTimeout(()=>{reset();GO[4]=0},500)
+                        GO[4] = 1;
+                    }
+                },200)
+            }else{
+                clearInterval(intv)
+                intv = null
+            }
+        }
+        const stoggle = () => {
+            toggle = !toggle
+        }
     </script>
 </body>
 </html>
+
+
