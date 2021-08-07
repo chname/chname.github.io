@@ -110,7 +110,7 @@
       M1: p1_m-y:465,516 m1-y:467,520
     -->
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
     <audio id="succ" src="asset/succ.m4a" preload="auto"></audio>
     <audio id="fail" src="asset/fail.m4a" preload="auto"></audio>
     <div id="container">
@@ -126,9 +126,9 @@
         <span id="okno"></span>
     </div>
     <map name="stone"> 
-        <area shape="rect" coords="867,267,966,341" href="javascript:segong(1)"></area>
-        <area shape="rect" coords="867,363,966,438" href="javascript:segong(2)"></area>
-        <area shape="rect" coords="867,490,966,564" href="javascript:segong(3)"></area>
+        <area shape="rect" coords="867,267,966,341" onclick="segong(1)"></area>
+        <area shape="rect" coords="867,363,966,438" onclick="segong(2)"></area>
+        <area shape="rect" coords="867,490,966,564" onclick="segong(3)"></area>
     </map>
     
     <script>
