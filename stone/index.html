@@ -108,15 +108,15 @@
     -->
 </head>
 <body>
-    <audio id="succ" src="succ.m4a" preload="auto"></audio>
-    <audio id="fail" src="fail.m4a" preload="auto"></audio>
+    <audio id="succ" src="asset/succ.m4a" preload="auto"></audio>
+    <audio id="fail" src="asset/fail.m4a" preload="auto"></audio>
     <div id="container">
-        <image class="template" src="stonetemplate.png" usemap="#stone"></image>
+        <image class="template" src="asset/stonetemplate.png" usemap="#stone"></image>
         <div id="per1">75%</div>
         <div id="per2">75%</div>
-        <image class="count_p1" src="counts.PNG"></image>
-        <image class="count_p2" src="counts.PNG"></image>
-        <image class="count_m" src="counts_m.PNG"></image>
+        <image class="count_p1" src="asset/counts.PNG"></image>
+        <image class="count_p2" src="asset/counts.PNG"></image>
+        <image class="count_m" src="asset/counts_m.PNG"></image>
         <div id="cp1_count">0</div>
         <div id="cp2_count">0</div>
         <div id="cp3_count">0</div>
@@ -157,7 +157,7 @@
                 if(PERCENT >= 0.35) PERCENT -= 0.1
                 LINE[line][GO[line]] = 1
                 var image = document.createElement("img")
-                image.src = line == 3 ? "p1_m.PNG" : "p1.PNG"
+                image.src = line == 3 ? "asset/p1_m.PNG" : "asset/p1.PNG"
                 image.style.position = "absolute"
                 image.style.left = pos[line-1][0][0] + (39 * GO[line]) + "px"
                 image.style.top = pos[line-1][0][1] + "px"
@@ -172,7 +172,7 @@
                 if(PERCENT <= 0.65) PERCENT += 0.1
                 LINE[line][GO[line]] = -1
                 var image = document.createElement("img")
-                image.src = "m1.PNG"
+                image.src = "asset/m1.PNG"
                 image.style.position = "absolute"
                 image.style.left = pos[line-1][1][0] + (39 * GO[line]) + "px"
                 image.style.top = pos[line-1][1][1] + "px"
