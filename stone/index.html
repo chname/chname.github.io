@@ -131,6 +131,7 @@
         <span id="okno"></span>
         <button onclick="reset()">돌 다시 깎기</button>
         <button onclick="JEONGBAE_repeat()">자동 세공</button>
+        <button onclick="nineseven()">97/106돌까지 자동 세공</button>
         <button onclick="stoggle()">소리 ON/OFF</button>
     </div>
     
@@ -148,12 +149,12 @@
             1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        };
+        }
         var GO = {
             1: 0,
             2: 0,
             3: 0
-        };
+        }
         var SUCC = {
             1: 0,
             2: 0,
@@ -161,7 +162,7 @@
         }
         var OKNO = document.querySelector('#okno')
         const segong = (line) => {
-            if(GO[line] == 10) return;
+            if(GO[line] == 10) return
             if(Math.random() <= PERCENT){
                 if(toggle){
                     const origAudio = document.getElementById("succ");
@@ -178,7 +179,7 @@
                 image.style.top = pos[line-1][0][1] + "px"
                 image.classList = "fadein"
                 OKNO.appendChild(image)
-                SUCC[line]++;
+                SUCC[line]++
             }else{
                 if(toggle){
                     const origAudio = document.getElementById("fail");
@@ -196,23 +197,23 @@
                 image.classList = "fadein"
                 OKNO.appendChild(image)
             }
-            GO[line]++;
+            GO[line]++
             document.querySelector("#cp"+line+"_count").textContent = SUCC[line]
             document.querySelector("#per1").textContent = (PERCENT*100).toFixed(0) + "%"
             document.querySelector("#per2").textContent = (PERCENT*100).toFixed(0) + "%"
         }
         const reset = () => {
-            PERCENT = 0.75;
+            PERCENT = 0.75
             LINE = {
             1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            };
+            }
             GO = {
             1: 0,
             2: 0,
             3: 0
-            };
+            }
             SUCC = {
             1: 0,
             2: 0,
@@ -227,6 +228,10 @@
         }
         var intv = null;
         const JEONGBAE_repeat = () => {
+            if(ints != null){
+                clearInterval(ints)
+                ints = null
+            }
             if(intv == null){
                 reset()
                 GO[4]=0
@@ -248,9 +253,9 @@
                     }
                     if(GO[1]+GO[2]+GO[3]+GO[4] == 30){
                         setTimeout(()=>{reset();GO[4]=0},500)
-                        GO[4] = 1;
+                        GO[4] = 1
                     }
-                },200)
+                },160)
             }else{
                 clearInterval(intv)
                 intv = null
@@ -258,6 +263,67 @@
         }
         const stoggle = () => {
             toggle = !toggle
+        }
+        var ints = null;
+        var times = 0;
+        const nineseven = () => {
+            if(intv != null){
+                clearInterval(intv)
+                intv = null
+            }
+            if(ints != null){
+                clearInterval(ints)
+                ints = null
+                times = 0
+                return
+            }
+            toggle = false
+            reset()
+            GO[4]=0
+                ints = setInterval(()=>{
+                    if(PERCENT >= 0.55){
+                        if(GO[1] < 10)
+                            segong(1)
+                        else if(GO[2] < 10)
+                            segong(2)
+                        else
+                            segong(3)
+                    }else{
+                        if(GO[3] < 10)
+                            segong(3)
+                        else if(GO[2] < 10)
+                            segong(2)
+                        else
+                            segong(1)
+                    }
+                    if(((SUCC[1] < 6 && GO[1] == 10) || (SUCC[2] < 6 && GO[2] == 10))){
+                        times++
+                        var s1 = SUCC[1]-GO[1]+10
+                        var s2 = SUCC[2]-GO[2]+10
+                        var s3 = SUCC[3]-GO[3]+10
+                        s1 = s1 == SUCC[1] ? s1 : SUCC[1] + "~" + s1
+                        s2 = s2 == SUCC[2] ? s2 : SUCC[2] + "~" + s2
+                        s3 = s3 == SUCC[3] ? s3 : SUCC[3] + "~" + s3
+                        console.log(times+": "+s1+"/"+s2+"/"+s3)
+                        reset()
+                        GO[4] = 0
+                        return
+                    }
+                    if(GO[1]+GO[2]+GO[3]+GO[4] == 30){
+                        times++
+                        GO[4] = 1
+                        console.log(times+": "+SUCC[1]+"/"+SUCC[2]+"/"+SUCC[3])
+                        if((SUCC[1] >= 9 && SUCC[2] >= 7) || (SUCC[1] >= 10 && SUCC[2] >= 6) ||
+                        (SUCC[2] >= 9 && SUCC[1] >= 7) || (SUCC[2] >= 10 && SUCC[1] >= 6)){
+                            clearInterval(ints)
+                            ints = null
+                            alert(times + "번 만에 "+SUCC[1]+"/"+SUCC[2]+"/"+SUCC[3]+" 돌 성공!")
+                            times = 0
+                            return
+                        }
+                        setTimeout(()=>{reset();GO[4]=0},1)
+                    }
+                },0)
         }
     </script>
 </body>
