@@ -1,142 +1,13 @@
 let options =
-    `               <option value="0">-</option>
-                        <option value="255">각성</option>
-                        <option value="286">갈증</option>
-                        <option value="243">강령술</option>
-                        <option value="129">강화 무기</option>
-                        <option value="242">강화 방패</option>
-                        <option value="288">결투의 대가</option>
-                        <option value="225">고독한 기사</option>
-                        <option value="125">광기</option>
-                        <option value="188">광전사의 비기</option>
-                        <option value="134">구슬동자</option>
-                        <option value="123">굳은 의지</option>
-                        <option value="190">극의: 체술</option>
-                        <option value="142">급소 타격</option>
-                        <option value="249">기습의 대가</option>
-                        <option value="199">넘치는 교감</option>
-                        <option value="287">달의 소리</option>
-                        <option value="238">달인의 저력</option>
-                        <option value="254">돌격대장</option>
-                        <option value="258">두 번째 동료</option>
-                        <option value="168">마나 회복 증가</option>
-                        <option value="251">마나의 흐름</option>
-                        <option value="281">멈출 수 없는 충동</option>
-                        <option value="253">바리케이드</option>
-                        <option value="279">버스트</option>
-                        <option value="246">번개의 분노</option>
-                        <option value="245">부러진 뼈</option>
-                        <option value="196">분노의 망치</option>
-                        <option value="236">분쇄의 주먹</option>
-                        <option value="235">불굴</option>
-                        <option value="290">사냥의 시간</option>
-                        <option value="198">상급 소환사</option>
-                        <option value="244">선수필승</option>
-                        <option value="256">세맥타통</option>
-                        <option value="121">슈퍼 차지</option>
-                        <option value="248">승부사</option>
-                        <option value="237">실드 관통</option>
-                        <option value="282">심판자</option>
-                        <option value="284">아르데타인의 기술</option>
-                        <option value="111">안정된 상태</option>
-                        <option value="107">약자 무시</option>
-                        <option value="110">에테르 강화</option>
-                        <option value="239">여신의 가호</option>
-                        <option value="257">역천지체</option>
-                        <option value="193">연속 포격</option>
-                        <option value="141">예리한 둔기</option>
-                        <option value="127">오의 강화</option>
-                        <option value="292">오의난무</option>
-                        <option value="280">완벽한 억제</option>
-                        <option value="118">원한</option>
-                        <option value="140">위기 모면</option>
-                        <option value="291">일격필살</option>
-                        <option value="278">잔재된 기운</option>
-                        <option value="247">저주받은 인형</option>
-                        <option value="224">전투 태세</option>
-                        <option value="195">절실한 구원</option>
-                        <option value="276">절정</option>
-                        <option value="277">절제</option>
-                        <option value="109">정기 흡수</option>
-                        <option value="259">죽음의 습격</option>
-                        <option value="240">중갑 착용</option>
-                        <option value="197">중력 수련</option>
-                        <option value="194">진실된 용맹</option>
-                        <option value="285">진화의 유산</option>
-                        <option value="189">초심</option>
-                        <option value="167">최대 마나 증가</option>
-                        <option value="283">축복의 오라</option>
-                        <option value="191">충격 단련</option>
-                        <option value="202">탈출의 명수</option>
-                        <option value="241">폭발물 전문가</option>
-                        <option value="289">피스메이커</option>
-                        <option value="192">핸드거너</option>
-                        <option value="130">화력 강화</option>
-                        <option value="201">황제의 칙령</option>
-                        <option value="200">황후의 은총</option>`;
-
+    `<option value="0">-</option> <option value="255">각성</option> <option value="286">갈증</option> <option value="243">강령술</option> <option value="129">강화 무기</option> <option value="242">강화 방패</option> <option value="288">결투의 대가</option> <option value="225">고독한 기사</option> <option value="125">광기</option> <option value="188">광전사의 비기</option> <option value="134">구슬동자</option> <option value="123">굳은 의지</option> <option value="190">극의: 체술</option> <option value="142">급소 타격</option> <option value="249">기습의 대가</option> <option value="199">넘치는 교감</option> <option value="287">달의 소리</option> <option value="238">달인의 저력</option> <option value="254">돌격대장</option> <option value="258">두 번째 동료</option> <option value="168">마나 회복 증가</option> <option value="251">마나의 흐름</option> <option value="281">멈출 수 없는 충동</option> <option value="253">바리케이드</option> <option value="279">버스트</option> <option value="246">번개의 분노</option> <option value="245">부러진 뼈</option> <option value="196">분노의 망치</option> <option value="236">분쇄의 주먹</option> <option value="235">불굴</option> <option value="290">사냥의 시간</option> <option value="198">상급 소환사</option> <option value="244">선수필승</option> <option value="256">세맥타통</option> <option value="121">슈퍼 차지</option> <option value="248">승부사</option> <option value="237">실드 관통</option> <option value="282">심판자</option> <option value="284">아르데타인의 기술</option> <option value="111">안정된 상태</option> <option value="107">약자 무시</option> <option value="110">에테르 강화</option> <option value="239">여신의 가호</option> <option value="257">역천지체</option> <option value="193">연속 포격</option> <option value="141">예리한 둔기</option> <option value="127">오의 강화</option> <option value="292">오의난무</option> <option value="280">완벽한 억제</option> <option value="118">원한</option> <option value="140">위기 모면</option> <option value="291">일격필살</option> <option value="278">잔재된 기운</option> <option value="247">저주받은 인형</option> <option value="224">전투 태세</option> <option value="195">절실한 구원</option> <option value="276">절정</option> <option value="277">절제</option> <option value="109">정기 흡수</option> <option value="259">죽음의 습격</option> <option value="240">중갑 착용</option> <option value="197">중력 수련</option> <option value="194">진실된 용맹</option> <option value="285">진화의 유산</option> <option value="189">초심</option> <option value="167">최대 마나 증가</option> <option value="283">축복의 오라</option> <option value="191">충격 단련</option> <option value="202">탈출의 명수</option> <option value="241">폭발물 전문가</option> <option value="289">피스메이커</option> <option value="192">핸드거너</option> <option value="130">화력 강화</option> <option value="201">황제의 칙령</option> <option value="200">황후의 은총</option>`;
 let options_def =
-    `               <option value="0">-</option>
-                        <option value="255">각성</option>
-                        <option value="243">강령술</option>
-                        <option value="242">강화 방패</option>
-                        <option value="288">결투의 대가</option>
-                        <option value="134">구슬동자</option>
-                        <option value="123">굳은 의지</option>
-                        <option value="142">급소 타격</option>
-                        <option value="249">기습의 대가</option>
-                        <option value="238">달인의 저력</option>
-                        <option value="254">돌격대장</option>
-                        <option value="168">마나 회복 증가</option>
-                        <option value="251">마나의 흐름</option>
-                        <option value="253">바리케이드</option>
-                        <option value="246">번개의 분노</option>
-                        <option value="245">부러진 뼈</option>
-                        <option value="236">분쇄의 주먹</option>
-                        <option value="235">불굴</option>
-                        <option value="244">선수필승</option>
-                        <option value="121">슈퍼 차지</option>
-                        <option value="248">승부사</option>
-                        <option value="237">실드 관통</option>
-                        <option value="111">안정된 상태</option>
-                        <option value="107">약자 무시</option>
-                        <option value="110">에테르 강화</option>
-                        <option value="239">여신의 가호</option>
-                        <option value="141">예리한 둔기</option>
-                        <option value="118">원한</option>
-                        <option value="140">위기 모면</option>
-                        <option value="247">저주받은 인형</option>
-                        <option value="109">정기 흡수</option>
-                        <option value="240">중갑 착용</option>
-                        <option value="167">최대 마나 증가</option>
-                        <option value="202">탈출의 명수</option>
-                        <option value="241">폭발물 전문가</option>`;
+    `<option value="0">-</option> <option value="255">각성</option> <option value="243">강령술</option> <option value="242">강화 방패</option> <option value="288">결투의 대가</option> <option value="134">구슬동자</option> <option value="123">굳은 의지</option> <option value="142">급소 타격</option> <option value="249">기습의 대가</option> <option value="238">달인의 저력</option> <option value="254">돌격대장</option> <option value="168">마나 회복 증가</option> <option value="251">마나의 흐름</option> <option value="253">바리케이드</option> <option value="246">번개의 분노</option> <option value="245">부러진 뼈</option> <option value="236">분쇄의 주먹</option> <option value="235">불굴</option> <option value="244">선수필승</option> <option value="121">슈퍼 차지</option> <option value="248">승부사</option> <option value="237">실드 관통</option> <option value="111">안정된 상태</option> <option value="107">약자 무시</option> <option value="110">에테르 강화</option> <option value="239">여신의 가호</option> <option value="141">예리한 둔기</option> <option value="118">원한</option> <option value="140">위기 모면</option> <option value="247">저주받은 인형</option> <option value="109">정기 흡수</option> <option value="240">중갑 착용</option> <option value="167">최대 마나 증가</option> <option value="202">탈출의 명수</option> <option value="241">폭발물 전문가</option>`;
 let levels =
-    `   <option value="0">-</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>`;
+    `<option value="0">-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option>`;
 let alevels =
-    `   <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>`;
+    `<option value="0">0</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option>`;
 let teuks =
-    `   <option value="-1">-</option>
-                <option value="0">치명</option>
-                <option value="1">특화</option>
-                <option value="2">제압</option>
-                <option value="3">신속</option>
-                <option value="4">인내</option>
-                <option value="5">숙련</option>
-            `;
+    `<option value="-1">-</option> <option value="0">치명</option> <option value="1">특화</option> <option value="2">제압</option> <option value="3">신속</option> <option value="4">인내</option> <option value="5">숙련</option>`;
 let engraves = {
     11: "3332",
     12: "3333",
@@ -225,22 +96,8 @@ let stone = (what, much) => {
 }
 var teukss = [-1, -1, -1];
 var teukset = [
-
-    `               <option value="1">1500 : 500</option>
-                        <option value="2">1300 : 700</option>
-                        <option value="3">1200 : 800</option>
-                        <option value="4">1100 : 900</option>
-                        <option value="5">1000 : 1000</option>`,
-    `       <option value="6">1000 : 500 : 500</option>
-                        <option value="7">1000 : 700 : 300</option>
-                        <option value="8">1000 : 800 : 200</option>
-                        <option value="9">1200 : 500 : 300</option>
-                        <option value="10">1300 : 500 : 200</option>
-                        <option value="11">1000 : 300 : 700</option>
-                        <option value="12">1000 : 200 : 800</option>
-                        <option value="13">1200 : 300 : 500</option>
-                        <option value="14">1300 : 200 : 500</option>
-        `
+    `<option value="1">1500 : 500</option> <option value="2">1300 : 700</option> <option value="3">1200 : 800</option> <option value="4">1100 : 900</option> <option value="5">1000 : 1000</option>`,
+    `<option value="6">1000 : 500 : 500</option> <option value="7">1000 : 700 : 300</option> <option value="8">1000 : 800 : 200</option> <option value="9">1200 : 500 : 300</option> <option value="10">1300 : 500 : 200</option> <option value="11">1000 : 300 : 700</option> <option value="12">1000 : 200 : 800</option> <option value="13">1200 : 300 : 500</option> <option value="14">1300 : 200 : 500</option>`
 ];
 let teuk = (what, choose) => {
     teukss[what] = choose;
@@ -265,7 +122,28 @@ window.onload = () => {
     location.href.split("?").length == 1 ? null : _import(location.href.split("?")[1].replace("val=", ""))
 }
 let search = () => {
+    var engv = [];
+    for(var i=1; i<=6; i++)
+        engv.push({
+            engrave: document.querySelector('#engv-'+i).value,
+            level: document.querySelector('#engv-level-'+i).value
+        })
+    accSearch(engv, 
+    {
+        P1: {engrave: document.querySelector('#stoneP1').value,
+             level: document.querySelector('#stoneP1-L').value},
+        P2: {engrave: document.querySelector('#stoneP2').value,
+        level: document.querySelector('#stoneP2-L').value},
+        M1: {engrave: document.querySelector('#stoneM1').value,
+        level: document.querySelector('#stoneM1-L').value}
+    }, {
+        main: document.querySelector('#teuk-1').value,
+        sub: document.querySelector('#teuk-2').value,
+        dust: document.querySelector('#teuk-3').value,
+        ratio: document.querySelector('#biyul').value
+    }).then((data)=>{
 
+    })
 }
 let _export = (shutup = null) => {
     var result = [

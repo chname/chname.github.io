@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>돌 세공 시뮬레이터</title>
+    <style>
+        @font-face {
+            font-family: 'HCRDotum';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/HCRDotum.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0c0f10;
+        }
+        #container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top:50px;
+        }
+        .template {
+            position: relative;
+        }
+        #per1, #per2 {
+            color: yellow;
+            font-family: 'HCRDotum';
+            font-size: 18px;
+        }
+        #per1 {
+            position: absolute;
+            left: 933px;
+            top: 239px;
+        }
+        #per2 {
+            position: absolute;
+            left: 933px;
+            top: 459px;
+        }
+        .fadein {
+            animation: fadein .3s;
+            -moz-animation: fadein .3s;
+            -webkit-animation: fadein .3s; 
+            -o-animation: fadein .3s; 
+        }
+        .count_p1 {
+            position: absolute;
+            left: 792px;
+            top: 268px;
+        }
+        #cp1_count {
+            position: absolute;
+            color: #00b5ff;
+            font-family: 'HCRDotum';
+            font-size: 14px;
+            left: 837px;
+            top: 273px;
+        }
+        #cp2_count {
+            position: absolute;
+            color: #00b5ff;
+            font-family: 'HCRDotum';
+            font-size: 14px;
+            left: 837px;
+            top: 365px;
+        }
+        #cp3_count {
+            position: absolute;
+            color: #c24b46;
+            font-family: 'HCRDotum';
+            font-size: 14px;
+            left: 837px;
+            top: 494px;
+        }
+        .count_p2 {
+            position: absolute;
+            left: 792px;
+            top: 361px;
+        }
+        .count_m {
+            position: absolute;
+            left: 794px;
+            top: 489px;
+        }
+        @keyframes fadein {
+            0% {
+                opacity: 0.5;
+            }
+            80% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+    <!--
+      P1 start: 470, 40px per slot
+      P1_M start: 465, 40px per slot
+      P1: p1-y:470,300 m1-y:470,300
+      P2: p1-y:470,393 m1-y:470,393
+      M1: p1_m-y:465,516 m1-y:467,520
+    -->
+</head>
+<body>
+    <audio id="succ" src="succ.m4a" preload="auto"></audio>
+    <audio id="fail" src="fail.m4a" preload="auto"></audio>
+    <div id="container">
+        <image class="template" src="stonetemplate.png" usemap="#stone"></image>
+        <div id="per1">75%</div>
+        <div id="per2">75%</div>
+        <image class="count_p1" src="counts.PNG"></image>
+        <image class="count_p2" src="counts.PNG"></image>
+        <image class="count_m" src="counts_m.PNG"></image>
+        <div id="cp1_count">0</div>
+        <div id="cp2_count">0</div>
+        <div id="cp3_count">0</div>
+        <span id="okno"></span>
+    </div>
+    <map name="stone"> 
+        <area shape="rect" coords="867,267,966,341" onclick="segong(1)" href="#"></area>
+        <area shape="rect" coords="867,363,966,438" onclick="segong(2)" href="#"></area>
+        <area shape="rect" coords="867,490,966,564" onclick="segong(3)" href="#"></area>
+    </map>
+    
+    <script>
+        var pos = [[[470,300], [470,300]],[[470,393], [470,393]],[[465,516], [467,520]]]
+        var PERCENT = 0.75;
+        var LINE = {
+            1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        };
+        var GO = {
+            1: 0,
+            2: 0,
+            3: 0
+        };
+        var SUCC = {
+            1: 0,
+            2: 0,
+            3: 0
+        }
+        var OKNO = document.querySelector('#okno')
+        const segong = (line) => {
+            if(GO[line] == 10) return;
+            if(Math.random() <= PERCENT){
+                const origAudio = document.getElementById("succ");
+                const succ = origAudio.cloneNode()
+                succ.play()
+                //성공
+                if(PERCENT >= 0.35) PERCENT -= 0.1
+                LINE[line][GO[line]] = 1
+                var image = document.createElement("img")
+                image.src = line == 3 ? "p1_m.PNG" : "p1.PNG"
+                image.style.position = "absolute"
+                image.style.left = pos[line-1][0][0] + (39 * GO[line]) + "px"
+                image.style.top = pos[line-1][0][1] + "px"
+                image.classList = "fadein"
+                OKNO.appendChild(image)
+                SUCC[line]++;
+            }else{
+                const origAudio = document.getElementById("fail");
+                const fail = origAudio.cloneNode()
+                fail.play()
+                //실패
+                if(PERCENT <= 0.65) PERCENT += 0.1
+                LINE[line][GO[line]] = -1
+                var image = document.createElement("img")
+                image.src = "m1.PNG"
+                image.style.position = "absolute"
+                image.style.left = pos[line-1][1][0] + (39 * GO[line]) + "px"
+                image.style.top = pos[line-1][1][1] + "px"
+                image.classList = "fadein"
+                OKNO.appendChild(image)
+            }
+            GO[line]++;
+            document.querySelector("#cp"+line+"_count").textContent = SUCC[line]
+            document.querySelector("#per1").textContent = (PERCENT*100).toFixed(0) + "%"
+            document.querySelector("#per2").textContent = (PERCENT*100).toFixed(0) + "%"
+        }
+    </script>
+</body>
+</html>
