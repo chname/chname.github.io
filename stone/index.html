@@ -98,6 +98,9 @@
                 opacity: 1;
             }
         }
+        area {
+            cursor: pointer;
+        }
     </style>
     <!--
       P1 start: 470, 40px per slot
@@ -107,7 +110,7 @@
       M1: p1_m-y:465,516 m1-y:467,520
     -->
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
     <audio id="succ" src="asset/succ.m4a" preload="auto"></audio>
     <audio id="fail" src="asset/fail.m4a" preload="auto"></audio>
     <div id="container">
