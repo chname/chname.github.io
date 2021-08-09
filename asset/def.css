@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+a {
+    text-decoration: none;
+}
+a:link, a:visited { color: #007; text-decoration: none;}
+a:hover { 
+    animation-name: fadein;
+    animation-duration: .5s;
+    text-decoration: underline; 
+}
+footer {
+    font-family: 'S-CoreDream-4Regular';
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    text-align: center;
+}

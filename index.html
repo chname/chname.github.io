@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로스트아크를 더 재밌게! by 캐릭터이름고민된다</title>
+    <style>
+        @keyframes fadein {
+            0% {
+                color: #aaf;
+            }
+            100% {
+                color: #00f;
+            }
+        }
+        @font-face {
+            font-family: 'S-CoreDream-4Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        a {
+            text-decoration: none;
+        }
+        a:not(.nobig) {
+            font-size: 25px;
+        }
+        a:link, a:visited { color: #007; text-decoration: none;}
+        a:hover { 
+            animation-name: fadein;
+            animation-duration: .5s;
+            text-decoration: underline; 
+        }
+        .container {
+            border: 2px solid black;
+            border-radius: 30px;
+            width: 600px;
+            margin: 0 auto;
+            padding: 5px;
+        }
+        .text {
+            clear: both;
+            width: 270px;
+            margin: 0 auto;
+        }
+        .img {
+            float: left;
+            width: 30px;
+            height: 30px;
+        }
+        footer {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body style="text-align: center; font-family: 'S-CoreDream-4Regular';">
+    <div style="font-size: 50px; font-weight: bolder;">로스트아크를 더 재밌게!</div>
+    <div class="container">
+        <div class="text">
+            <a href="stone"><image src="asset/stone.PNG" class="img"></image>돌 세공 시뮬레이터</a>
+        </div>
+        <div class="text">
+            <a href="smelt"><image src="asset/smelt.PNG" class="img"></image>재련 확률 계산기</a>
+        </div>
+    </div>
+    <footer>By Seokmin, Bae / <a class="nobig" href="LICENSE" rel="license">LICENSE</a> / <a class="nobig" href="https://github.com/chname/chname.github.io">Github</a></footer>
+</body>
+</html>

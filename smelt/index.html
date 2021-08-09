@@ -1,0 +1,197 @@
+
+<html>
+    <head>
+<style>
+    @font-face { font-family: 'S-CoreDream-8Heavy'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'paybooc-Medium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Medium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'S-CoreDream-4Regular'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff'); font-weight: normal; font-style: normal; }
+    .ff { font-family: 'S-CoreDream-8Heavy'; font-size: 60px; }
+    .tx { font-family: 'S-CoreDream-4Regular'; font-size: 18px; }
+    .tx_b { font-family: 'S-CoreDream-4Regular'; font-size: 25px; }
+    .df { font-family: 'S-CoreDream-4Regular'; font-size: 33px; }
+    .small { font-family: 'S-CoreDream-4Regular'; font-size: 15px; }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #result {
+        text-align: center;
+        margin-left: 16.6%;
+        width: 33%;
+    }
+    .container {
+            display:flex;
+            flex-direction: row or column
+    }
+</style>
+<link rel="stylesheet" href="../asset/def.css">
+<script>
+    var per_table = [100, 100, 100, 100, 100, 100, 60, 45, 30, 30, 30, 15, 15, 15, 10, 10, 10, 5,5,3,3,1,1,0.5,0.5 //0~24(1302,1340장비)
+                    ,100, 100, 100, 45, 45, 45, 30, 30, 30, 15, 15, 10, 10, 5, 5, 4, 4, 3, 3, 1.5] 
+    function getSmeltInfo(base_hwak, current_janggi=0, bonuscr=0, issum=false){
+
+        if(current_janggi == 100) return [100]
+        var first_hwak = base_hwak/100;
+        var bonus = first_hwak/10;
+        var bonusc = bonuscr;
+        first_hwak += bonus * bonusc;
+        if(issum)
+        first_hwak += base_hwak == 0.5 ? 0.01 : base_hwak/100;
+
+        if(first_hwak >= 1) return [100];
+        var janggi = current_janggi/100;
+        var nuarray = [];
+        var infor = []
+        var j = 0;
+        var allof = 0;
+        while (true){
+            var gye = 0;
+            gye = 1-nuarray[0] || 1
+            for (i in nuarray){
+                if(i == 0) continue;
+                gye *= (1-nuarray[i])
+            }
+            allof += (first_hwak * gye)*100
+            //console.log((parseInt(j)+1) + "트만에 성공: "+(allof).toFixed(2) + "%")
+            infor.push(allof)
+            nuarray.push(first_hwak)
+            janggi += first_hwak* 0.465
+            if(bonusc<10){
+            first_hwak += bonus;
+            bonusc++;
+            }
+            j++
+            if(janggi >= 1){
+               // console.log((parseInt(j)+1) + "트만에 성공: "+((100).toFixed(2) + "%")+ " (장기백)")
+                infor.push(100)
+                return infor;
+            }
+        }
+    }
+    var gangs=0;
+    function change(e) {
+        var see = e.selectedIndex >= 25 ? e.selectedIndex-25 : e.selectedIndex
+        document.getElementById('gang').innerText= see + " 단계 >>> " + (see+1) + " 단계";
+        gangs = e.selectedIndex;
+        document.getElementById('defhwak').innerHTML = per_table[gangs]
+        document.getElementById('pers').placeholder = per_table[gangs]
+        calc()
+    }
+    function non(el, maxlength){
+        if(el.value.length > maxlength)  {
+            el.value 
+            = el.value.substr(0, maxlength);
+        }
+        calc()
+    }
+    
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+var chart;
+var chart2;
+var ctx;
+var ctx2;
+window.onload = () => {
+    ctx = document.getElementById('myChart').getContext('2d'); 
+    ctx2 = document.getElementById('myChart2').getContext('2d'); 
+    calc()
+}
+var options = {
+    tooltips: {
+    callbacks: {
+      label: function (tooltipItem, data) {
+        try {
+          let label = ' ' + data.labels[tooltipItem.index] || '';
+
+          if (label) {
+            label += ': ';
+          }
+
+          const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+
+          label += value.toFixed(2) + '%';
+          return label;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  }
+};
+function s(s){
+ return isNaN(s) ? 100 : s;
+}
+function calc(){
+    var janggi = document.getElementById('janggi').value == "" ? 0 : document.getElementById('janggi').value
+    var nowp = per_table[gangs];
+    var bonushw = document.getElementById('pers').value == "" ? nowp : document.getElementById('pers').value
+
+    var bonuss = (bonushw - nowp) / (nowp/10);
+    if(nowp == 100 || isNaN(bonuss)) bonuss = 10;
+    var smelt,smelter
+    if(nowp != 100){
+    smelt = getSmeltInfo(nowp, janggi, bonuss)
+    var smelt_0 = getSmeltInfo(nowp, 0, 0)
+    var smelter_0 = getSmeltInfo(nowp, 0, 0, true)
+    smelter = getSmeltInfo(nowp,janggi,bonuss,true)
+    }else{
+    smelt = [100]
+    smelter = [100]
+    }
+    var smelts = [...Array(smelt.length+1).keys()]
+    smelts.shift()
+    smelts = smelts.map((v)=> v+"트")
+    
+    var smelters = [...Array(smelter.length+1).keys()]
+    smelters.shift()
+    smelters = smelters.map((v)=> v+"트")
+
+    if(chart) chart.destroy()
+    chart = new Chart(ctx, { 
+    type: 'line', 
+    data: { labels: smelts, datasets: [{ label: '노숨으로 n트 안에 성공할 확률', backgroundColor: 'transparent', borderColor: 'red', data: smelt }] }, 
+    options: options});
+
+    if(chart2) chart2.destroy()
+    chart2 = new Chart(ctx2, { 
+    type: 'line', 
+    data: { labels: smelters, datasets: [{ label: '풀숨으로 n트 안에 성공할 확률', backgroundColor: 'transparent', borderColor: 'blue', data: smelter }] }, 
+    options: options});
+    document.getElementById('result').style.display = ""
+    document.getElementById('moreinfo').innerHTML = `${s(100-smelt[smelts.length-2]).toFixed(2)}% 확률로 노숨 기준으로 장기백입니다. (${smelts.length}트 남음, 현재 ${smelt_0.length - smelts.length}트)<br>${s(100-smelter[smelters.length-2]).toFixed(2)}% 확률로 풀숨 기준으로 장기백입니다. (${smelters.length}트 남음, 현재 ${smelter_0.length - smelters.length}트)`
+}
+</script>
+</head>
+<body style="text-align: center;">
+<div class="ff">재련 확률 계산기</div>
+<span class="tx_b">
+현재 강화 단계 
+    <script>
+        var d = ""
+        for (i in [...Array(25)]){
+            d += "<option value="+i+">+"+i+"</option>"
+        }
+        for (i in [...Array(20)]){
+            d += "<option value="+(parseInt(i)+25)+">↑"+i+"</option>"
+        }
+        document.write("<select onchange='change(this)'' class='tx'>" + d + "</select>")
+    </script>
+</span>
+<div class="small">(+0~+24는 1302-1340장비, ↑0~↑19는 1390장비)</div>
+<hr>
+<div class="tx_b" id="gang">0 단계 >>> 1 단계</div>
+<div class="tx" id="jang">장인의 기운 <input oninput="non(this, 6)"id="janggi" class="tx" placeholder="0.00" style="height: 30px; width: 75px; text-align: right;" type="number"></input>%</div>
+<div class="tx">기본 확률: <span id="defhwak">100</span>%&nbsp;&nbsp;&nbsp;&nbsp;현재 확률: <input oninput="non(this, 6)"id="pers" class="tx" placeholder="100" style="height: 30px; width: 75px; text-align: right;" type="number"></input>%</div> 
+
+<!--<button onclick="calc()">확률 계산</button>-->
+<br><br>
+<span id="moreinfo"></span>
+<div id="result" style="display: none;">
+    <div class="container">
+<canvas id="myChart"></canvas> <canvas id="myChart2"></canvas>
+</div>
+</div>
+<footer>By Seokmin, Bae / <a class="nobig" href="LICENSE" rel="license">LICENSE</a> / <a class="nobig" href="https://github.com/chname/chname.github.io">Github</a></footer>
+</body></html>
