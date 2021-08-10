@@ -271,8 +271,8 @@
         first_hwak += bonus * bonusc;
         if(issum)
         first_hwak += base_hwak == 0.5 ? 0.01 : base_hwak/100;
-        if(first_hwak >= 1) return [100];
         if(abonus) first_hwak += abonus;
+        if(first_hwak >= 1) return [100];
         var janggi = current_janggi/100;
         var nuarray = [];
         var infor = []
