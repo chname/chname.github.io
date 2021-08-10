@@ -1,15 +1,25 @@
 
 <html>
-    <head>
+<head>
 <style>
     @font-face { font-family: 'S-CoreDream-8Heavy'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff'); font-weight: normal; font-style: normal; }
     @font-face { font-family: 'paybooc-Medium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Medium.woff') format('woff'); font-weight: normal; font-style: normal; }
     @font-face { font-family: 'S-CoreDream-4Regular'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }
     .ff { font-family: 'S-CoreDream-8Heavy'; font-size: 60px; }
     .tx { font-family: 'S-CoreDream-4Regular'; font-size: 18px; }
     .tx_b { font-family: 'S-CoreDream-4Regular'; font-size: 25px; }
     .df { font-family: 'S-CoreDream-4Regular'; font-size: 33px; }
     .small { font-family: 'S-CoreDream-4Regular'; font-size: 15px; }
+    #moreinfo { font-family: 'S-CoreDream-3Light'; font-size: 15px; }
+    .button {
+        background-color: #ccc;
+        border: 1px solid black;
+        margin: 3px;
+    }
+    .button:hover {
+        background-color: #999;
+    }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -24,13 +34,236 @@
             display:flex;
             flex-direction: row or column
     }
+    .rein {
+        display: block;
+        width: 800px;
+        margin: 35px auto;
+        border: 1px solid black;
+        padding: 5px;
+    }
+    .reinforce {
+        text-align: center;
+        display: inline;
+        font-family: 'S-CoreDream-3Light';
+    }
+    .icon {
+        width: 22px;
+        height: 22px;
+        margin: 0;
+        vertical-align: middle
+    }
+    .icon2 {
+        width: 15px;
+        height: 15px;
+        margin: 0;
+        vertical-align: middle
+    }
+    .icon3 {
+        margin: 0;
+        vertical-align: middle
+    }
 </style>
 <link rel="stylesheet" href="../asset/def.css">
+<script src="../api/lostark.js"></script>
 <script>
+    var prices = {}
+    var images = {}
     var per_table = [100, 100, 100, 100, 100, 100, 60, 45, 30, 30, 30, 15, 15, 15, 10, 10, 10, 5,5,3,3,1,1,0.5,0.5 //0~24(1302,1340장비)
-                    ,100, 100, 100, 45, 45, 45, 30, 30, 30, 15, 15, 10, 10, 5, 5, 4, 4, 3, 3, 1.5] 
-    function getSmeltInfo(base_hwak, current_janggi=0, bonuscr=0, issum=false){
+                    ,100, 100, 100, 45, 45, 45, 30, 30, 30, 15, 15, 10, 10, 5, 5, 4, 4, 3, 3, 1.5] //0~19(1390장비)
+    var need_table = {
+        //[stone, breakthrough, oreha, fragment, shilling, gold]
+        //성장 지원: 비용50%감소 및 확률 20% 증가 (~[14]) 
+        tier3_1: {
+            weapon:
+           [[138,4,0,32,15860,0],
+            [138,4,0,32,16240,0],
+            [138,6,0,32,16640,0],
+            [198,6,2,46,17040,0],
+            [198,6,2,46,17460,0],
+            [198,6,2,46,17900,0],
+            [258,8,4,60,18320,400],
+            [258,8,4,60,18780,400],
+            [258,8,4,60,19240,400],
+            [320,10,4,74,19720,400],
+            [320,10,4,74,20200,400],
+            [320,10,4,74,20700,400],
+            [380,10,6,88,21200,400],
+            [380,12,6,88,21720,400],
+            [380,12,6,88,22260,400],
+            [440,12,6,120,22800,400],
+            [440,12,6,164,23380,400],
+            [440,14,6,222,23940,400],
+            [500,14,8,300,24520,400],
+            [500,16,8,406,25120,400],
+            [500,16,8,552,25760,420],
+            [560,18,8,750,26380,430],
+            [560,18,8,1016,27020,450],
+            [560,20,8,1380,27700,460],
+            [622,20,8,1872,28360,490]],
+            armor: 
+           [[82,2,0,22,11100,0],
+            [82,2,0,22,11380,0],
+            [82,4,0,22,11660,0],
+            [120,4,2,32,11960,0],
+            [120,4,2,32,12240,0],
+            [120,4,2,32,12540,0],
+            [156,4,2,42,12840,220],
+            [156,4,2,42,13160,220],
+            [156,4,2,42,13480,220],
+            [192,6,4,50,13820,220],
+            [192,6,4,50,14140,220],
+            [192,6,4,50,14500,220],
+            [228,6,4,60,14860,220],
+            [228,8,4,60,15220,220],
+            [228,8,4,60,15600,220],
+            [264,8,4,82,15980,230],
+            [264,8,4,112,16380,240],
+            [264,8,4,152,16760,240],
+            [300,8,6,206,17180,240],
+            [300,10,6,278,17620,240],
+            [300,10,6,378,18040,240],
+            [336,10,6,514,18480,240],
+            [336,10,6,698,18940,240],
+            [336,12,6,948,19400,240],
+            [372,12,6,1288,19880,240]]
+        },
+            //성장지원: 비용60%감소, 확률20%증가 (~[14])
+        tier3_2: {
+            weapon: 
+           [[358,6,4,84,27600,600],
+            [358,8,4,84,28280,600],
+            [358,8,4,84,28980,600],
+            [516,10,6,120,29680,600],
+            [516,10,6,120,30420,600],
+            [516,12,6,120,31160,640],
+            [672,12,6,156,31920,640],
+            [672,14,6,156,32700,640],
+            [672,14,8,156,33520,640],
+            [830,16,8,192,34340,640],
+            [830,16,8,192,35180,660],
+            [830,18,8,192,36040,660],
+            [986,18,10,228,36940,660],
+            [986,20,10,228,37840,660],
+            [986,20,10,228,38760,660],
+            [1144,22,12,310,39720,680],
+            [1144,24,14,422,40580,680],
+            [1144,28,16,572,41460,680],
+            [1300,30,18,776,42360,710],
+            [1300,32,20,1054,43260,730],
+            [1300,34,22,1432,44200,750],
+            [1458,38,26,1944,45160,780],
+            [1458,42,28,2640,46140,810],
+            [1458,44,32,3586,47160,840],
+            [1614,48,36,4868,48180,870]],
+            armor: 
+           [[216,4,4,58,19320,320],
+            [216,6,4,58,19800,320],
+            [216,6,4,58,20300,330],
+            [310,6,4,82,20800,330],
+            [310,6,4,82,21300,330],
+            [310,8,4,82,21820,330],
+            [404,8,6,108,22380,330],
+            [404,10,6,108,22920,330],
+            [404,10,6,108,23480,330],
+            [498,10,8,132,24040,330],
+            [498,10,8,132,24640,330],
+            [498,12,8,132,25240,330],
+            [592,12,8,158,25860,330],
+            [592,12,8,158,26500,330],
+            [592,12,8,158,27160,350],
+            [686,14,10,216,27820,350],
+            [686,16,10,292,28420,350],
+            [686,16,12,396,29040,350],
+            [780,18,14,536,29660,350],
+            [780,20,14,728,30320,350],
+            [780,22,16,988,30980,360],
+            [874,24,18,1340,31640,380],
+            [874,26,20,1818,32320,390],
+            [874,28,22,2466,33040,400],
+            [968,30,24,3346,33740,420]]
+        },
+            //성장지원 없음
+        tier3_2a: {
+            weapon: 
+           [[350,6,5,300,45000,720],
+            [350,8,5,300,45000,720],
+            [350,8,5,300,45000,720],
+            [400,10,6,400,45000,750],
+            [400,10,6,400,45000,750],
+            [400,12,6,500,45000,750],
+            [450,12,6,500,45000,770],
+            [450,14,6,600,45000,770],
+            [450,14,6,600,45000,770],
+            [550,16,7,800,45000,790],
+            [550,16,7,800,45000,790],
+            [650,18,8,1000,45000,800],
+            [650,18,8,1000,45000,800],
+            [700,20,12,1400,45000,870],
+            [750,20,12,1400,45000,940],
+            [900,22,12,2400,50000,1120],
+            [950,24,12,2400,50000,1200],
+            [1100,28,20,3600,50000,1350],
+            [1150,30,20,3600,50000,1440],
+            [1300,32,30,5000,55000,1600]],
+            armor: 
+           [[210,4,3,180,31500,430],
+            [210,5,3,180,31500,430],
+            [210,5,3,180,31500,430],
+            [240,6,4,240,31500,450],
+            [240,6,4,240,31500,450],
+            [240,7,4,300,31500,450],
+            [270,7,4,300,31500,460],
+            [270,8,4,360,31500,460],
+            [270,8,4,360,31500,460],
+            [330,10,4,480,31500,470],
+            [330,10,4,480,31500,470],
+            [390,11,5,600,31500,480],
+            [390,11,5,600,31500,480],
+            [420,12,7,840,31500,520],
+            [450,12,7,840,31500,560],
+            [540,13,7,1440,35000,670],
+            [570,14,7,1440,35000,720],
+            [660,17,12,2160,35000,810],
+            [690,18,12,2160,35000,860],
+            [780,19,18,3000,38500,960]]
+        }
+    }
+    //성장지원 적용
+    var count = 0;
+    need_table.tier3_1.weapon = need_table.tier3_1.weapon.map(v=>{
+        count++
+        if(count <= 15)
+            return [Math.floor(v[0]/2), Math.floor(v[1]/2), Math.floor(v[2]/2), Math.ceil(v[3]/2), Math.ceil(v[4]/2), Math.ceil(v[5]/2)]
+        else
+            return v
+    })
+    count = 0;
+    need_table.tier3_1.armor = need_table.tier3_1.armor.map(v=>{
+        count++
+        if(count <= 15)
+            return [Math.floor(v[0]/2), Math.floor(v[1]/2), Math.floor(v[2]/2), Math.ceil(v[3]/2), Math.ceil(v[4]/2), Math.ceil(v[5]/2)]
+        else
+            return v
+    })
+    count = 0;
+    need_table.tier3_2.weapon = need_table.tier3_2.weapon.map(v=>{
+        count++
+        if(count <= 15)
+            return [Math.floor(v[0]/2.5), Math.floor(v[1]/2.5), Math.floor(v[2]/2.5), Math.ceil(v[3]/2.5), Math.ceil(v[4]/2.5), Math.ceil(v[5]/2.5)]
+        else
+            return v
+    })
+    count = 0;
+    need_table.tier3_2.armor = need_table.tier3_2.armor.map(v=>{
+        count++
+        if(count <= 15)
+            return [Math.floor(v[0]/2.5), Math.floor(v[1]/2.5), Math.floor(v[2]/2.5), Math.ceil(v[3]/2.5), Math.ceil(v[4]/2.5), Math.ceil(v[5]/2.5)]
+        else
+            return v
+    })
 
+    //
+    function getSmeltInfo(base_hwak, current_janggi=0, bonuscr=0, issum=false){
         if(current_janggi == 100) return [100]
         var first_hwak = base_hwak/100;
         var bonus = first_hwak/10;
@@ -38,7 +271,6 @@
         first_hwak += bonus * bonusc;
         if(issum)
         first_hwak += base_hwak == 0.5 ? 0.01 : base_hwak/100;
-
         if(first_hwak >= 1) return [100];
         var janggi = current_janggi/100;
         var nuarray = [];
@@ -77,6 +309,7 @@
         document.getElementById('defhwak').innerHTML = per_table[gangs]
         document.getElementById('pers').placeholder = per_table[gangs]
         calc()
+        refresh()
     }
     function non(el, maxlength){
         if(el.value.length > maxlength)  {
@@ -84,6 +317,7 @@
             = el.value.substr(0, maxlength);
         }
         calc()
+        refresh()
     }
     
 </script>
@@ -123,6 +357,7 @@ var options = {
 function s(s){
  return isNaN(s) ? 100 : s;
 }
+var gibaek = [1, 1];
 function calc(){
     var janggi = document.getElementById('janggi').value == "" ? 0 : document.getElementById('janggi').value
     var nowp = per_table[gangs];
@@ -160,7 +395,13 @@ function calc(){
     data: { labels: smelters, datasets: [{ label: '풀숨으로 n트 안에 성공할 확률', backgroundColor: 'transparent', borderColor: 'blue', data: smelter }] }, 
     options: options});
     document.getElementById('result').style.display = ""
+    if(nowp != 100){
     document.getElementById('moreinfo').innerHTML = `${s(100-smelt[smelts.length-2]).toFixed(2)}% 확률로 노숨 기준으로 장기백입니다. (${smelts.length}트 남음, 현재 ${smelt_0.length - smelts.length}트)<br>${s(100-smelter[smelters.length-2]).toFixed(2)}% 확률로 풀숨 기준으로 장기백입니다. (${smelters.length}트 남음, 현재 ${smelter_0.length - smelters.length}트)`
+    gibaek = [smelts.length, smelters.length]
+    }else{
+    document.getElementById('moreinfo').innerHTML = `성공 확률이 100%입니다.<br>&nbsp;`
+    gibaek = [1, 1]
+    }
 }
 </script>
 </head>
@@ -184,14 +425,183 @@ function calc(){
 <div class="tx_b" id="gang">0 단계 >>> 1 단계</div>
 <div class="tx" id="jang">장인의 기운 <input oninput="non(this, 6)"id="janggi" class="tx" placeholder="0.00" style="height: 30px; width: 75px; text-align: right;" type="number"></input>%</div>
 <div class="tx">기본 확률: <span id="defhwak">100</span>%&nbsp;&nbsp;&nbsp;&nbsp;현재 확률: <input oninput="non(this, 6)"id="pers" class="tx" placeholder="100" style="height: 30px; width: 75px; text-align: right;" type="number"></input>%</div> 
-
+<br>
 <!--<button onclick="calc()">확률 계산</button>-->
-<br><br>
 <span id="moreinfo"></span>
 <div id="result" style="display: none;">
     <div class="container">
 <canvas id="myChart"></canvas> <canvas id="myChart2"></canvas>
 </div>
 </div>
+<span class="rein"><div class="reinforce"></div></span>
 <footer>By Seokmin, Bae / <a class="nobig" href="https://chname.github.io/LICENSE.txt" rel="license">LICENSE</a> / <a class="nobig" href="https://github.com/chname/chname.github.io">Github</a></footer>
+<script>
+    const papyeon = '../asset/papyeon.png'
+    const gold = '../asset/gold.png'
+    const shilling = '../asset/shilling.png'
+    var togg = 1340;
+    const cn = (lvl) => {
+        togg = lvl
+        refresh()
+    }
+    const c = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    const refresh = () => {
+        try{
+            var txt = "";
+            /*var sd = `<br><br> <image src='${images.protect3}' class='icon'> = <image src='${gold}' class='icon2'>${prices.protect3/10} <image src='${images.crash3}' class='icon'> = <image src='${gold}' class='icon2'>${prices.crash3/10}`
+                + `<br> <image src='${images.bt3_1}' class='icon'>= <image src='${gold}' class='icon2'>${prices.bt3_1}`
+                + ` <image src='${images.bt3_2}' class='icon'>= <image src='${gold}' class='icon2'>${prices.bt3_2}` 
+                + ` <image src='${images.bt3_3}' class='icon'>= <image src='${gold}' class='icon2'>${prices.bt3_3}`
+                + `<br> <image src='${images.low_oreha}' class='icon'>= <image src='${gold}' class='icon2'>${prices.low_oreha}`
+                + ` <image src='${images.middle_oreha}' class='icon'>= <image src='${gold}' class='icon2'>${prices.middle_oreha}`
+                + ` <image src='${images.high_oreha}' class='icon'>= <image src='${gold}' class='icon2'>${prices.high_oreha}`
+                + `<br>`;*/
+            
+            if(gangs < 25){
+                txt += `<button class="button" onclick='cn(1302)'>1302</button><button class="button" onclick='cn(1340)'>1340</button><br>`
+
+                var cal = 
+                [
+                    need_table.tier3_1.armor[gangs][0] * prices.protect3 / 10 +
+                    need_table.tier3_1.armor[gangs][1] * prices.bt3_1 +
+                    need_table.tier3_1.armor[gangs][2] * prices.low_oreha +
+                    need_table.tier3_1.armor[gangs][5]
+                    ,
+                    need_table.tier3_1.weapon[gangs][0] * prices.crash3 / 10 +
+                    need_table.tier3_1.weapon[gangs][1] * prices.bt3_1 +
+                    need_table.tier3_1.weapon[gangs][2] * prices.low_oreha +
+                    need_table.tier3_1.weapon[gangs][5]
+                    ,
+                    need_table.tier3_2.armor[gangs][0] * prices.protect3 / 10 +
+                    need_table.tier3_2.armor[gangs][1] * prices.bt3_1 +
+                    need_table.tier3_2.armor[gangs][2] * prices.middle_oreha +
+                    need_table.tier3_2.armor[gangs][5]
+                    ,
+                    need_table.tier3_2.weapon[gangs][0] * prices.crash3 / 10 +
+                    need_table.tier3_2.weapon[gangs][1] * prices.bt3_1 +
+                    need_table.tier3_2.weapon[gangs][2] * prices.middle_oreha +
+                    need_table.tier3_2.weapon[gangs][5]
+                ]
+                    var a02 = 
+                `<image src='${images.protect3}' class='icon'> ${c(need_table.tier3_1.armor[gangs][0])} 
+                    <image src='${images.bt3_1}' class='icon'> ${c(need_table.tier3_1.armor[gangs][1])}
+                    <image src='${images.low_oreha}' class='icon'> ${c(need_table.tier3_1.armor[gangs][2])}&nbsp;
+                    <image src='${papyeon}' class='icon3'> ${c(need_table.tier3_1.armor[gangs][3])}
+                    <image src='${shilling}' class='icon2'> ${c(need_table.tier3_1.armor[gangs][4])}
+                    <image src='${gold}' class='icon2'> ${c(need_table.tier3_1.armor[gangs][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]))})<br>
+                <image src='${images.crash3}' class='icon'> ${c(need_table.tier3_1.weapon[gangs][0])} 
+                    <image src='${images.bt3_1}' class='icon'> ${c(need_table.tier3_1.weapon[gangs][1])}
+                    <image src='${images.low_oreha}' class='icon'> ${c(need_table.tier3_1.weapon[gangs][2])}&nbsp;
+                    <image src='${papyeon}' class='icon3'> ${c(need_table.tier3_1.weapon[gangs][3])}
+                    <image src='${shilling}' class='icon2'> ${c(need_table.tier3_1.weapon[gangs][4])}
+                    <image src='${gold}' class='icon2'> ${c(need_table.tier3_1.weapon[gangs][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]))})`
+                    +`<br> (장기백: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]*gibaek[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]*gibaek[0]))})`
+                
+                var a40 = `<image src='${images.protect3}' class='icon'> ${c(need_table.tier3_2.armor[gangs][0])} 
+                <image src='${images.bt3_2}' class='icon'> ${c(need_table.tier3_2.armor[gangs][1])}
+                <image src='${images.middle_oreha}' class='icon'> ${c(need_table.tier3_2.armor[gangs][2])}&nbsp;
+                <image src='${papyeon}' class='icon3'> ${c(need_table.tier3_2.armor[gangs][3])}
+                <image src='${shilling}' class='icon2'> ${c(need_table.tier3_2.armor[gangs][4])}
+                <image src='${gold}' class='icon2'> ${c(need_table.tier3_2.armor[gangs][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[2]))})<br>
+                <image src='${images.crash3}' class='icon'> ${c(need_table.tier3_2.weapon[gangs][0])} 
+                <image src='${images.bt3_2}' class='icon'> ${c(need_table.tier3_2.weapon[gangs][1])}
+                <image src='${images.middle_oreha}' class='icon'> ${c(need_table.tier3_2.weapon[gangs][2])}&nbsp;
+                <image src='${papyeon}' class='icon3'> ${c(need_table.tier3_2.weapon[gangs][3])}
+                <image src='${shilling}' class='icon2'> ${c(need_table.tier3_2.weapon[gangs][4])}
+                <image src='${gold}' class='icon2'> ${c(need_table.tier3_2.weapon[gangs][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[3]))})`
+                    +`<br> (장기백: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[2]*gibaek[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[3]*gibaek[0]))})`
+                
+                txt += (togg == 1340 ? a40 : a02)
+            
+            }else{
+                var cal = 
+                [
+                    need_table.tier3_2a.armor[gangs-25][0] * prices.protect3a / 10 +
+                    need_table.tier3_2a.armor[gangs-25][1] * prices.bt3_3 +
+                    need_table.tier3_2a.armor[gangs-25][2] * prices.high_oreha +
+                    need_table.tier3_2a.armor[gangs-25][5]
+                    ,
+                    need_table.tier3_2a.weapon[gangs-25][0] * prices.crash3a / 10 +
+                    need_table.tier3_2a.weapon[gangs-25][1] * prices.bt3_3 +
+                    need_table.tier3_2a.weapon[gangs-25][2] * prices.high_oreha +
+                    need_table.tier3_2a.weapon[gangs-25][5]
+                ]
+                txt +=
+            `<image src='${images.protect3a}' class='icon'> ${c(need_table.tier3_2a.armor[gangs-25][0])} 
+                <image src='${images.bt3_3}' class='icon'> ${c(need_table.tier3_2a.armor[gangs-25][1])}
+                <image src='${images.high_oreha}' class='icon'> ${c(need_table.tier3_2a.armor[gangs-25][2])}&nbsp;
+                <image src='${papyeon}' class='icon3'> ${c(need_table.tier3_2a.armor[gangs-25][3])}
+                <image src='${shilling}' class='icon2'> ${c(need_table.tier3_2a.armor[gangs-25][4])}
+                <image src='${gold}' class='icon2'> ${c(need_table.tier3_2a.armor[gangs-25][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]))})<br>
+             <image src='${images.crash3a}' class='icon'> ${c(need_table.tier3_2a.weapon[gangs-25][0])} 
+                <image src='${images.bt3_3}' class='icon'> ${c(need_table.tier3_2a.weapon[gangs-25][1])}
+                <image src='${images.high_oreha}' class='icon'> ${c(need_table.tier3_2a.weapon[gangs-25][2])}&nbsp;
+                <image src='${papyeon}' class='icon3'> ${c(need_table.tier3_2a.weapon[gangs-25][3])}
+                <image src='${shilling}' class='icon2'> ${c(need_table.tier3_2a.weapon[gangs-25][4])}
+                <image src='${gold}' class='icon2'> ${c(need_table.tier3_2a.weapon[gangs-25][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]))})`
+            +`<br> (장기백: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]*gibaek[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]*gibaek[0]))})`
+            }
+            document.getElementsByClassName("reinforce")[0].innerHTML = txt
+        }catch(e){
+            console.log(e)
+            document.getElementsByClassName("reinforce")[0].innerHTML = "로딩 중.."
+        }
+    }
+    LOSTARK.Market.Search("파괴", {
+        category: LOSTARK.Category.REINFORCE.SMELT
+    }).then((list)=>{
+        prices.crash1 = list.items[0].lsprice;
+        prices.crash2 = list.items[1].lsprice;
+        prices.crash3 = list.items[2].lsprice;
+        prices.crash3a = list.items[3].lsprice;
+        images.crash1 = list.items[0].img;
+        images.crash2 = list.items[1].img;
+        images.crash3 = list.items[2].img;
+        images.crash3a = list.items[3].img;
+        refresh()
+    })
+    LOSTARK.Market.Search("수호", {
+        category: LOSTARK.Category.REINFORCE.SMELT
+    }).then((list)=>{
+        prices.protect3 = list.items[0].lsprice;
+        prices.protect1 = list.items[1].lsprice;
+        prices.protect2 = list.items[2].lsprice;
+        prices.protect3a = list.items[3].lsprice;
+        images.protect3 = list.items[0].img;
+        images.protect1 = list.items[1].img;
+        images.protect2 = list.items[2].img;
+        images.protect3a = list.items[3].img;
+        refresh()
+    })
+    LOSTARK.Market.Search("돌파석", {
+        category: LOSTARK.Category.REINFORCE.ADDITIONAL
+    }).then((list)=>{
+        prices.bt1 = list.items[0].lsprice;
+        prices.bt2 = list.items[1].lsprice;
+        prices.bt3_1 = list.items[2].lsprice;
+        prices.bt3_2 = list.items[3].lsprice;
+        prices.bt3_3 = list.items[4].lsprice;
+        images.bt1 = list.items[0].img;
+        images.bt2 = list.items[1].img;
+        images.bt3_1 = list.items[2].img;
+        images.bt3_2 = list.items[3].img;
+        images.bt3_3 = list.items[4].img;
+        refresh()
+    })
+    LOSTARK.Market.Search("융화 재료", {
+        category: LOSTARK.Category.REINFORCE.SMELT
+    }).then((list)=>{
+        prices.kaldar = list.items[0].lsprice;
+        prices.low_oreha = list.items[1].lsprice;
+        prices.middle_oreha = list.items[2].lsprice;
+        prices.high_oreha = list.items[3].lsprice;
+        images.kaldar = list.items[0].img;
+        images.low_oreha = list.items[1].img;
+        images.middle_oreha = list.items[2].img;
+        images.high_oreha = list.items[3].img;
+        refresh()
+    })
+</script>
 </body></html>
