@@ -430,6 +430,7 @@ function calc(){
 <br>
 <!--<button onclick="calc()">확률 계산</button>-->
 <span id="moreinfo"></span>
+<br><br>
 <div id="result" style="display: none;">
     <div class="container">
 <canvas id="myChart"></canvas> <canvas id="myChart2"></canvas>
@@ -551,6 +552,7 @@ function calc(){
             document.getElementsByClassName("reinforce")[0].innerHTML = "로딩 중.."
         }
     }
+    refresh()
     LOSTARK.Market.Search("파괴", {
         category: LOSTARK.Category.REINFORCE.SMELT
     }).then((list)=>{
