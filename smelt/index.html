@@ -367,7 +367,7 @@ function calc(){
     var bonuss = (bonushw - nowp) / (nowp/10);
     if(nowp == 100 || isNaN(bonuss)) bonuss = 10;
     var smelt,smelter
-    var bonus = gangs < 15 ? 0.2 : 0
+    var bonus = (gangs < 15 && document.getElementById('pers').value == "") ? 0.2 : 0
     if(nowp != 100){
         smelt = getSmeltInfo(nowp, janggi, bonuss, false, bonus)
         var smelt_0 = getSmeltInfo(nowp, 0, 0, false, bonus)
