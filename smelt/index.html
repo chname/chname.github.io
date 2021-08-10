@@ -554,6 +554,7 @@ function calc(){
     }
     refresh()
     LOSTARK.Market.Search("파괴", {
+        sort: LOSTARK.Sort.RANK.DOWN,
         category: LOSTARK.Category.REINFORCE.SMELT
     }).then((list)=>{
         prices.crash1 = list.items[0].lsprice;
@@ -567,19 +568,21 @@ function calc(){
         refresh()
     })
     LOSTARK.Market.Search("수호", {
+        sort: LOSTARK.Sort.RANK.DOWN,
         category: LOSTARK.Category.REINFORCE.SMELT
     }).then((list)=>{
-        prices.protect3 = list.items[0].lsprice;
-        prices.protect1 = list.items[1].lsprice;
-        prices.protect2 = list.items[2].lsprice;
+        prices.protect1 = list.items[0].lsprice;
+        prices.protect2 = list.items[1].lsprice;
+        prices.protect3 = list.items[2].lsprice;
         prices.protect3a = list.items[3].lsprice;
-        images.protect3 = list.items[0].img;
-        images.protect1 = list.items[1].img;
-        images.protect2 = list.items[2].img;
+        images.protect1 = list.items[0].img;
+        images.protect2 = list.items[1].img;
+        images.protect3 = list.items[2].img;
         images.protect3a = list.items[3].img;
         refresh()
     })
     LOSTARK.Market.Search("돌파석", {
+        sort: LOSTARK.Sort.RANK.DOWN,
         category: LOSTARK.Category.REINFORCE.ADDITIONAL
     }).then((list)=>{
         prices.bt1 = list.items[0].lsprice;
@@ -595,16 +598,17 @@ function calc(){
         refresh()
     })
     LOSTARK.Market.Search("융화 재료", {
+        sort: LOSTARK.Sort.RANK.DOWN,
         category: LOSTARK.Category.REINFORCE.SMELT
     }).then((list)=>{
-        prices.kaldar = list.items[0].lsprice;
-        prices.low_oreha = list.items[1].lsprice;
-        prices.middle_oreha = list.items[2].lsprice;
-        prices.high_oreha = list.items[3].lsprice;
-        images.kaldar = list.items[0].img;
-        images.low_oreha = list.items[1].img;
-        images.middle_oreha = list.items[2].img;
-        images.high_oreha = list.items[3].img;
+        prices.kaldar = list.items[2].lsprice;
+        prices.low_oreha = list.items[3].lsprice;
+        prices.middle_oreha = list.items[1].lsprice;
+        prices.high_oreha = list.items[0].lsprice;
+        images.kaldar = list.items[2].img;
+        images.low_oreha = list.items[3].img;
+        images.middle_oreha = list.items[1].img;
+        images.high_oreha = list.items[0].img;
         refresh()
     })
 </script>
