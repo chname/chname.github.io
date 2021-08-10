@@ -11,7 +11,7 @@
     .tx_b { font-family: 'S-CoreDream-4Regular'; font-size: 25px; }
     .df { font-family: 'S-CoreDream-4Regular'; font-size: 33px; }
     .small { font-family: 'S-CoreDream-4Regular'; font-size: 15px; }
-    #moreinfo { font-family: 'S-CoreDream-3Light'; font-size: 15px; }
+    #moreinfo { font-family: 'S-CoreDream-4Regular'; font-size: 15px; }
     .button {
         background-color: #ccc;
         border: 1px solid black;
@@ -263,7 +263,7 @@
     })
 
     //
-    function getSmeltInfo(base_hwak, current_janggi=0, bonuscr=0, issum=false){
+    function getSmeltInfo(base_hwak, current_janggi=0, bonuscr=0, issum=false, abonus=null){
         if(current_janggi == 100) return [100]
         var first_hwak = base_hwak/100;
         var bonus = first_hwak/10;
@@ -272,6 +272,7 @@
         if(issum)
         first_hwak += base_hwak == 0.5 ? 0.01 : base_hwak/100;
         if(first_hwak >= 1) return [100];
+        if(abonus) first_hwak += abonus;
         var janggi = current_janggi/100;
         var nuarray = [];
         var infor = []
@@ -288,7 +289,7 @@
             //console.log((parseInt(j)+1) + "트만에 성공: "+(allof).toFixed(2) + "%")
             infor.push(allof)
             nuarray.push(first_hwak)
-            janggi += first_hwak* 0.465
+            janggi += first_hwak * 0.465
             if(bonusc<10){
             first_hwak += bonus;
             bonusc++;
@@ -306,8 +307,8 @@
         var see = e.selectedIndex >= 25 ? e.selectedIndex-25 : e.selectedIndex
         document.getElementById('gang').innerText= see + " 단계 >>> " + (see+1) + " 단계";
         gangs = e.selectedIndex;
-        document.getElementById('defhwak').innerHTML = per_table[gangs]
-        document.getElementById('pers').placeholder = per_table[gangs]
+        document.getElementById('defhwak').innerHTML = gangs >= 15 ? per_table[gangs] : per_table[gangs]+"(+20)"
+        document.getElementById('pers').placeholder = gangs >= 15 ? per_table[gangs] : Math.min(per_table[gangs]+20,100)
         calc()
         refresh()
     }
@@ -366,11 +367,12 @@ function calc(){
     var bonuss = (bonushw - nowp) / (nowp/10);
     if(nowp == 100 || isNaN(bonuss)) bonuss = 10;
     var smelt,smelter
+    var bonus = gangs < 15 ? 0.2 : 0
     if(nowp != 100){
-    smelt = getSmeltInfo(nowp, janggi, bonuss)
-    var smelt_0 = getSmeltInfo(nowp, 0, 0)
-    var smelter_0 = getSmeltInfo(nowp, 0, 0, true)
-    smelter = getSmeltInfo(nowp,janggi,bonuss,true)
+        smelt = getSmeltInfo(nowp, janggi, bonuss, false, bonus)
+        var smelt_0 = getSmeltInfo(nowp, 0, 0, false, bonus)
+        var smelter_0 = getSmeltInfo(nowp, 0, 0, true, bonus)
+        smelter = getSmeltInfo(nowp,janggi,bonuss,true, bonus)
     }else{
     smelt = [100]
     smelter = [100]
@@ -424,7 +426,7 @@ function calc(){
 <hr>
 <div class="tx_b" id="gang">0 단계 >>> 1 단계</div>
 <div class="tx" id="jang">장인의 기운 <input oninput="non(this, 6)"id="janggi" class="tx" placeholder="0.00" style="height: 30px; width: 75px; text-align: right;" type="number"></input>%</div>
-<div class="tx">기본 확률: <span id="defhwak">100</span>%&nbsp;&nbsp;&nbsp;&nbsp;현재 확률: <input oninput="non(this, 6)"id="pers" class="tx" placeholder="100" style="height: 30px; width: 75px; text-align: right;" type="number"></input>%</div> 
+<div class="tx">기본 확률: <span id="defhwak">100(+20)</span>%&nbsp;&nbsp;&nbsp;&nbsp;현재 확률: <input oninput="non(this, 6)"id="pers" class="tx" placeholder="100" style="height: 30px; width: 75px; text-align: right;" type="number"></input>%</div> 
 <br>
 <!--<button onclick="calc()">확률 계산</button>-->
 <span id="moreinfo"></span>
