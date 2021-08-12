@@ -359,6 +359,18 @@ function s(s){
  return isNaN(s) ? 100 : s;
 }
 var gibaek = [1, 1];
+var average = [1, 1];
+const getAverage = (arr) => {
+    var abs = 100
+    var index = 0
+    for(i in arr){
+        if(abs > Math.abs(50-arr[i])){
+            abs = Math.abs(50-arr[i])
+            index = i
+        }
+    }
+    return parseInt(index)
+}
 function calc(){
     var janggi = document.getElementById('janggi').value == "" ? 0 : document.getElementById('janggi').value
     var nowp = per_table[gangs];
@@ -400,9 +412,11 @@ function calc(){
     if(nowp != 100){
     document.getElementById('moreinfo').innerHTML = `${s(100-smelt[smelts.length-2]).toFixed(2)}% 확률로 노숨 기준으로 장기백입니다. (${smelts.length}트 남음, 현재 ${smelt_0.length - smelts.length}트)<br>${s(100-smelter[smelters.length-2]).toFixed(2)}% 확률로 풀숨 기준으로 장기백입니다. (${smelters.length}트 남음, 현재 ${smelter_0.length - smelters.length}트)`
     gibaek = [smelts.length, smelters.length]
+    average = [getAverage(smelt)+1, getAverage(smelter)+1]
     }else{
     document.getElementById('moreinfo').innerHTML = `성공 확률이 100%입니다.<br>&nbsp;`
     gibaek = [1, 1]
+    average = [1, 1]
     }
 }
 </script>
@@ -501,6 +515,7 @@ function calc(){
                     <image src='${shilling}' class='icon2'> ${c(need_table.tier3_1.weapon[gangs][4])}
                     <image src='${gold}' class='icon2'> ${c(need_table.tier3_1.weapon[gangs][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]))})`
                     +`<br> (장기백: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]*gibaek[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]*gibaek[0]))})`
+                +`<br> (50%: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]*average[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]*average[0]))})`
                 
                 var a40 = `<image src='${images.protect3}' class='icon'> ${c(need_table.tier3_2.armor[gangs][0])} 
                 <image src='${images.bt3_2}' class='icon'> ${c(need_table.tier3_2.armor[gangs][1])}
@@ -515,6 +530,7 @@ function calc(){
                 <image src='${shilling}' class='icon2'> ${c(need_table.tier3_2.weapon[gangs][4])}
                 <image src='${gold}' class='icon2'> ${c(need_table.tier3_2.weapon[gangs][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[3]))})`
                     +`<br> (장기백: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[2]*gibaek[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[3]*gibaek[0]))})`
+                +`<br> (50%: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[2]*average[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[3]*average[0]))})`
                 
                 txt += (togg == 1340 ? a40 : a02)
             
@@ -545,6 +561,7 @@ function calc(){
                 <image src='${shilling}' class='icon2'> ${c(need_table.tier3_2a.weapon[gangs-25][4])}
                 <image src='${gold}' class='icon2'> ${c(need_table.tier3_2a.weapon[gangs-25][5])} (<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]))})`
             +`<br> (장기백: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]*gibaek[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]*gibaek[0]))})`
+                +`<br> (50%: 방어구<image src='${gold}' class='icon2'> ${c(Math.round(cal[0]*average[0]))}, 무기<image src='${gold}' class='icon2'> ${c(Math.round(cal[1]*average[0]))})`
             }
             document.getElementsByClassName("reinforce")[0].innerHTML = txt
         }catch(e){
