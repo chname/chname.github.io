@@ -29,6 +29,55 @@ let isOK = () => {
     document.querySelector("#po-engrave").textContent = engrave < plus ? "없" : "있"
     document.querySelector("#gr").classList = engrave < plus ? "red" : "green"
 }
+var aTn = (txt) => {
+    var small = txt.split(/[A-Z]/);
+    var big = txt.split(/[a-z]/);
+    small = small.filter((element, i) => element != '');
+    big = big.filter((element, i) => element != '');
+    var arr = [];
+    for(i in small){
+        small[i] ? arr.push(small[i]) : 0;
+        big[i] ? arr.push(big[i]) : 0;
+    }
+    arr = arr.map((v)=>parseInt(v
+    .replace(/a/gi,0)
+    .replace(/b/gi,1)
+    .replace(/c/gi,2)
+    .replace(/d/gi,3)
+    .replace(/e/gi,4)
+    .replace(/f/gi,5)
+    .replace(/g/gi,6)
+    .replace(/h/gi,7)
+    .replace(/i/gi,8)
+    .replace(/j/gi,9)
+    .replace(/l/gi,"-")))
+    return arr
+}
+var nTa = (arr) => {
+    var o = 0;
+    return arr.map((v)=>{
+        v=v+"";
+        v=v.replace(/0/gi,"a")
+        .replace(/1/gi,"b")
+        .replace(/2/gi,"c")
+        .replace(/3/gi,"d")
+        .replace(/4/gi,"e")
+        .replace(/5/gi,"f")
+        .replace(/6/gi,"g")
+        .replace(/7/gi,"h")
+        .replace(/8/gi,"i")
+        .replace(/9/gi,"j")
+        .replace(/-/gi,"l")
+        if(o==0){
+            v = v.toLowerCase()
+            o = 1
+        }else{
+            v = v.toUpperCase()
+            o = 0
+        }
+        return v;
+    }).join("");
+}
 let stone = (what, much) => {
     if (much == "8") much = 7
     stones[what] = parseInt(much);
@@ -171,7 +220,7 @@ let _export = (shutup = null) => {
         document.querySelector('#biyul').value
     ]
     result = result.map(v => parseInt(v))
-    let res = btoa(JSON.stringify(result).replace("[", "").replace("]", ""))
+    let res = nTa(result)
     if (shutup != null)
         return res;
     const t = document.createElement("textarea");
@@ -184,7 +233,7 @@ let _export = (shutup = null) => {
 }
 let _import = (val = null) => {
     var value = val == null ? prompt("설정을 붙여넣기 하세요.") : val
-    var json = JSON.parse("[" + atob(value) + "]")
+    var json = JSON.parse("[" + aTn(value) + "]")
     document.querySelector('#engv-1').value = json[0]
     document.querySelector('#engv-2').value = json[1]
     document.querySelector('#engv-3').value = json[2]
