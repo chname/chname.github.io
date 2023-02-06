@@ -144,6 +144,8 @@
     
     <script>
         var toggle = true
+        var aim1 = [9, 7]
+        var aim2 = [10, 6]
         var pos = [[[470,300], [470,300]],[[470,393], [470,393]],[[465,516], [467,520]]]
         var PERCENT = 0.75;
         var LINE = {
@@ -297,7 +299,7 @@
                         else
                             segong(1)
                     }
-                    if(((SUCC[1] < 6 && GO[1] == 10) || (SUCC[2] < 6 && GO[2] == 10))){
+                    if(((SUCC[1] < aim2[1] && GO[1] == aim2[0]) || (SUCC[2] < aim2[1] && GO[2] == aim2[0]))){
                         times++
                         var s1 = SUCC[1]-GO[1]+10
                         var s2 = SUCC[2]-GO[2]+10
@@ -314,11 +316,13 @@
                         times++
                         GO[4] = 1
                         console.log(times+": "+SUCC[1]+"/"+SUCC[2]+"/"+SUCC[3])
-                        if((SUCC[1] >= 9 && SUCC[2] >= 7) || (SUCC[1] >= 10 && SUCC[2] >= 6) ||
-                        (SUCC[2] >= 9 && SUCC[1] >= 7) || (SUCC[2] >= 10 && SUCC[1] >= 6)){
+                        if((SUCC[1] >= aim1[0] && SUCC[2] >= aim1[1]) || (SUCC[1] >= aim2[0] && SUCC[2] >= aim2[1]) ||
+                        (SUCC[2] >= aim1[0] && SUCC[1] >= aim1[1]) || (SUCC[2] >= aim2[0] && SUCC[1] >= aim2[1])){
                             clearInterval(ints)
                             ints = null
-                            alert(times + "번 만에 "+SUCC[1]+"/"+SUCC[2]+"/"+SUCC[3]+" 돌 성공!")
+                            var cry = 8.5*(9*times);
+                            alert(times + "번 만에 "+SUCC[1]+"/"+SUCC[2]+"/"+SUCC[3]+" 돌 성공! 페온 "+9*times+"개(="+cry+"크리스탈 | ="+cry*2750/95+"원) 사용했으며 약 "+1000*times+"골드 사용했습니다.")
+                            
                             times = 0
                             return
                         }
@@ -327,7 +331,6 @@
                 },0)
         }
     </script>
-    <footer>By Seokmin, Bae / <a class="nobig" href="https://chname.github.io/LICENSE.txt" rel="license">LICENSE</a> / <a class="nobig" href="https://github.com/chname/chname.github.io">Github</a></footer>
 
 </body>
 </html>
