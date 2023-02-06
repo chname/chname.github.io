@@ -320,8 +320,8 @@
                         (SUCC[2] >= aim1[0] && SUCC[1] >= aim1[1]) || (SUCC[2] >= aim2[0] && SUCC[1] >= aim2[1])){
                             clearInterval(ints)
                             ints = null
-                            var cry = 8.5*(9*times);
-                            alert(times + "번 만에 "+SUCC[1]+"/"+SUCC[2]+"/"+SUCC[3]+" 돌 성공! 페온 "+9*times+"개(="+cry+"크리스탈 | ="+cry*2750/95+"원) 사용했으며 약 "+1000*times+"골드 사용했습니다.")
+                            var cry = Math.floor(8.5*(9*times));
+                            alert(times + "번 만에 "+SUCC[1]+"/"+SUCC[2]+"/"+SUCC[3]+" 돌 성공! 페온 "+9*times+"개(="+cry+"크리스탈 | ="+Math.floor(cry*2750/95)+"원) 사용했으며 약 "+Math.floor(1000*times)+"골드 사용했습니다.")
                             
                             times = 0
                             return
